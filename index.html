@@ -3,6 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Required for Camera Kit Web SDK: https://developers.snap.com/camera-kit/integrate-sdk/web/web-configuration -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; connect-src 'self' https://*.snapar.com https://*.snapchat.com https://*.sc-cdn.net; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' https://*.sc-cdn.net blob:; worker-src 'self' blob:; img-src 'self' data: blob:; media-src 'self' blob:; style-src 'self' 'unsafe-inline'; frame-src 'self' https://*.snapar.com https://*.snapchat.com;"
+    />
     <title>Snap Camera Kit - Web</title>
   </head>
   <body>
