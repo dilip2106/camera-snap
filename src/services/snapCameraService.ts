@@ -30,9 +30,26 @@ export async function initializeSnapCamera(
   canvas: HTMLCanvasElement,
   constraints?: CameraConstraints
 ): Promise<SnapCameraResult> {
-  const cameraKit = await bootstrapCameraKit({
-    apiToken: SNAP_CONFIG.apiToken,
-  })
+  let cameraKit: Awaited<ReturnType<typeof bootstrapCameraKit>>
+  try {
+    cameraKit = await bootstrapCameraKit({
+      apiToken: SNAP_CONFIG.apiToken,
+    })
+  } catch (err) {
+    const originalMessage = err instanceof Error ? err.message : String(err)
+    const origin =
+      typeof window !== 'undefined' ? window.location.origin : 'unknown origin'
+    const host =
+      typeof window !== 'undefined' ? window.location.hostname : 'unknown host'
+    const isLocalHost = host === 'localhost' || host === '127.0.0.1'
+    const localHint = isLocalHost
+      ? ` The current origin is ${origin}. Use a Staging token for local runs, or add this exact origin in Snap Platform Identifiers.`
+      : ''
+
+    throw new Error(
+      `Failed to bootstrap Snap Camera Kit.${localHint} Verify your API token and allowed origin settings in Snap. Original error: ${originalMessage}`
+    )
+  }
 
   const videoConstraints: MediaTrackConstraints = {
     width: { ideal: 1280 },
